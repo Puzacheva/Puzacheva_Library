@@ -63,7 +63,8 @@ namespace Library.Pages
         {
             if (Visibility == Visibility.Visible)
             {
-                DataGridBooks.ItemsSource = null; DataGridBooks.ItemsSource = Entities.GetContext().Book.ToList();
+                DataGridBooks.ItemsSource = null; 
+                DataGridBooks.ItemsSource = Entities.GetContext().Book.ToList();
             }
         }
 

@@ -41,12 +41,12 @@ namespace Library.Pages
 
         private void ButtonDel_Click(object sender, RoutedEventArgs e)
         {
-            var booksForRemoving = DataGridBorroweBooks.SelectedItems.Cast<BorrowedBook>().ToList();
-            if (MessageBox.Show($"Вы точно хотите удалить записи в количестве {booksForRemoving.Count()} элементов?",
+            var borrowedbooksForRemoving = DataGridBorroweBooks.SelectedItems.Cast<BorrowedBook>().ToList();
+            if (MessageBox.Show($"Вы точно хотите удалить записи в количестве {borrowedbooksForRemoving.Count()} элементов?",
                 "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 try
                 {
-                    Entities.GetContext().BorrowedBook.RemoveRange(booksForRemoving);
+                    Entities.GetContext().BorrowedBook.RemoveRange(borrowedbooksForRemoving);
                     Entities.GetContext().SaveChanges();
                     MessageBox.Show("Данные успешно удалены!");
 
@@ -62,15 +62,15 @@ namespace Library.Pages
         {
             if (Visibility == Visibility.Visible)
             {
-                Entities.GetContext().ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
+                DataGridBorroweBooks.ItemsSource = null;
                 DataGridBorroweBooks.ItemsSource = Entities.GetContext().BorrowedBook
-                .Select(BorBook => new
-                {
-                    Book = BorBook.Book.Title,
-                    User = BorBook.User.FIO,
-                    BorBook.Borrow_Date,
-                    BorBook.Return_Date
-                }).ToList();
+                    .Select(BorBook => new
+                    {
+                        Book = BorBook.Book.Title,
+                        User = BorBook.User.FIO,
+                        BorBook.Borrow_Date,
+                        BorBook.Return_Date
+                    }).ToList();
             }
         }
 
